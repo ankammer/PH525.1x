@@ -1,0 +1,45 @@
+dat = read.csv("femaleMiceWeights.csv")
+
+Q1:How many of the high fat mice weigh less than the mean of the control mice 
+
+(chow)?
+
+sum(dat[13:24,2] < mean(dat[1:12,2]))
+
+Q2:How many of the control mice weigh more than the mean of the high fat mice?
+
+sum(dat[1:12,2] > mean(dat[13:24,2]))
+
+Q3:The proportion of high fat diet mice over 30 is the sum of high fat diet 
+
+mice over 30 divided by the number of high fat diet mice, in other words, the 
+
+mean of a vector of 1s and 0s. What is the proportion of high fat diet mice 
+
+over 30
+
+mean(dat$hf > 30)
+
+
+
+Q4:What's the control population mean?
+population = read.csv("femaleControlsPopulation.csv")
+mean(population)
+
+Q5:What is the one-tailed probability of seeing as big a difference as we 
+
+observed, calculated from your null distribution?
+
+null = replicate(10000, mean(sample(population, 12)) - mean(sample(population, 
+
+12)))
+
+diff = mean(dat[13:24,2]) - mean(dat[1:12,2])
+
+mean(null > abs(diff))
+
+Q6:What is the two-tailed probability of seeing as big a difference as we 
+
+observed, calculated from your null distribution?
+
+mean(abs(null) > abs(diff))
