@@ -1,0 +1,47 @@
+q<-read.csv("msleep_ggplot2.csv")
+
+Q1: How many hours of total sleep are there for the first animal in the table? 
+
+q$sleep_total[1]
+
+Q2:What is the 3rd quartile of the total sleep of all the animals?
+quantile(q$sleep_total,0.75)
+
+Q3:What is the row number of the animal which has more than 18 hours of total 
+
+sleep and less than 3 hours of
+
+which(q$sleep_total >=18 & q$sleep_rem <= 3)
+
+Q4: What is the index of the animal (so the row number) with the least total 
+
+sleep?
+
+which(q$sleep_total==min(q$sleep_total))
+
+Q5: What's the rank of the animal in the first row of the table in terms of 
+
+total sleep?
+
+rank(q$sleep_total)
+
+Q7:What is the row number for "Cotton rat" in the tab dataframe?
+
+match("Cotton rat", q$name)
+
+
+Q8:How many rodents (Rodentia) are in the table
+
+table(q$order)
+
+Q9:What is the mean hours of total sleep of the rodents?
+
+s = split(q$sleep_total, q$order)
+mean(s[["Rodentia"]])
+
+
+Q10: What is the standard deviation of total hours of sleep for the Primates 
+
+Order? (The standard deviation function is sd() in R.)
+
+tapply(tab$sleep_total, tab$order, sd)
