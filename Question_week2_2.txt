@@ -1,0 +1,61 @@
+library(gapminder)
+> data(gapminder)
+> head(gapminder)
+
+
+Q1:
+# subset all the values from 1952
+df<-Subset(gapminder, gapminder$year <= 1952)
+# subset all life Expectancies under 40
+df1<-subset(df$lifeExp>=40)
+
+# Calculatate proportion
+nrow(df1)/nrow(df)
+
+Q2:
+# subset life Expectancies over 60
+df2<-subset(df,df$lifeExp <= 60)
+
+# Calculate proportion
+ t<-nrow(df2)/nrow(df)
+> s<-nrow(df1)/nrow(df)
+> t-s
+
+Part 2: What is the standard deviation of the log10 of population size of the 
+
+countries in 1952?
+
+R-Code:
+t<-log10(new$pop)
+sd(t)
+
+Q2: What is the z-score of the country with the largest population size? (you 
+
+can use tail(sort(z),1) to see the very last and largest value).
+
+R-Code:
+z <- (max(t)-mean(t))/sd(t)
+max(z)
+
+Q3:Finally, using the Normal approximation, estimate the number of countries 
+
+that should have a log10 1952 population between 6 and 7 (i.e., between 1 
+
+million and 10 million people)? The answer should be the proportion from the 
+
+normal approximation times the total number of countries.
+
+R-Code:
+F <- function(q) pnorm(q, mean=mean(t), sd=sd(t))
+(F(7) - F(6)) * length(t)
+
+
+
+Q4:What is the quantile of the standard normal distribution which matches to 
+
+the smallest number in x (the first element of sort(x))?
+
+
+n = length(x)
+ps = ((1:n) - 0.5)/n
+min(qnorm(ps))
