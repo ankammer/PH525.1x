@@ -1,0 +1,45 @@
+babies = read.table("babies.txt", header=TRUE)
+bwt.nonsmoke = babies$bwt[babies$smoke==0]
+bwt.smoke = babies$bwt[babies$smoke==1]
+mean(bwt.nonsmoke)-mean(bwt.smoke)
+
+Week3 Question1 Interference 1
+Compute the t-value (t-statistic) for the first 30 weights of non-smoking 
+
+mothers and the first 30 weights of smoking mothers. (The first 30 as they 
+
+appear in the bwt.nonsmoke and bwt.smoke). Confirm that the t-statistic 
+
+calculated manually and by t.test() is the same. What is the t-value (t-
+
+statistic)?
+
+R-Code:
+bwt.nonsmoke30<-bwt.nonsmoke[1:30]
+bwt.smoke30<-bwt.smoke[1:30]
+t.test(bwt.nonsmoke30, bwt.smoke30)$statistic
+        
+
+Question2
+
+Because of the symmetry of the standard normal distribution, there is a simpler 
+
+way to calculate the probability that a t-value under the null could have a 
+
+larger absolute value than tval. Choose the simplified calculation from the 
+
+following:
+ pval = 1- pnorm(abs(tval)) + pnorm(-abs(tval))
+
+Answer:
+2*pnorm(-abs(tval))
+
+
+
+Question 3
+Which of the following sentences about a Type I error is NOT true?
+
+Answer:
+The probability of making a Type I error is equal to the probability that the 
+
+null hypothesis is true
