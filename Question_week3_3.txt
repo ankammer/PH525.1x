@@ -1,0 +1,143 @@
+In the many of the analyses this week, we know that the null hypothesis is false 
+
+-- for example, we knew that the difference in average baby weight in the whole 
+
+population is actually around  8.9. Thus, we are concerned with how often the 
+
+decision rule allows us to conclude the that the null hypothesis is actually 
+
+false. Put another way, we would like to quantify the Type II error rate of the 
+
+test, or the probability that we fail to reject the null hypothesis when the 
+
+alternative hypothesis is true.
+
+Unlike the Type I error rate, which we can characterize by assuming that the 
+
+null hypothesis of "no difference" is true, the Type II error rate cannot be 
+
+computed by assuming the alternative hypothesis alone because the alternative 
+
+hypothesis alone does not specify a particular value for the difference, and 
+
+thus does not nail down a specific distrbution for the t-value under the 
+
+alternative.
+
+For this reason, when we study the Type II error rate of a hypothesis testing 
+
+procedure, we need to assume a particular effect size, or hypothetical size of 
+
+the difference between population means, that we wish to target. We ask 
+
+questions like "What is the smallest difference I could reliably distinguish 
+
+from 0 given my sample size N?", or more commonly, "How big does N have to be in 
+
+order to detect that the absolute value of the difference is greater than zero?" 
+
+Type II error control plays a major role in designing data collection procedures 
+
+before you actually see the data so that you know the test you will run has 
+
+enough sensitivity or power. Power is one minus the Type II error rate, or the 
+
+probability that you will reject the null hypothesis when the alternative 
+
+hypothesis is true.
+Power and alpha
+
+There are several aspects of a hypothesis test that affect its power for a 
+
+particular effect size. Intuitively, setting a lower alpha decreases the power 
+
+of the test for a given effect size because the null hypothesis will be more 
+
+difficult to reject. This means that for an experiment with fixed parameters 
+
+(i.e., with a predetermined sample size, recording mechanism, etc), the power o 
+
+the hypothesis test trades off with its Type I error rate, no matter what effect 
+
+size you target.
+
+We can explore the tradeoff of power and Type I error concretely using the 
+
+babies data. Load the babies dataset from babies.txt
+
+babies = read.table("babies.txt", header=TRUE)
+bwt.nonsmoke = babies$bwt[babies$smoke==0]
+bwt.smoke = babies$bwt[babies$smoke==1]
+
+Because we have the full population, we know what the true effect size is (about 
+
+8.93), and we can compute the power of the test for true difference between 
+
+populations.
+
+Take a random sample of N=15 measurements from each of the smoking (bwt.smoke) 
+
+and nonsmoking (bwt.nonsmoke) groups. Then perform a t-test and compare the p-
+
+value to a significance level alpha. Do this 1,000 times. Decide whether or not 
+
+to reject the null hypothesis based on three significance levels alpha=0.1, 
+
+alpha = 0.05, alpha=0.01. For each experiment, keep track of whether you 
+
+correctly rejected the null hypothesis at each of these significance levels 
+
+(thus, each of the 1,000 experiments should produce 3 numbers to keep track of). 
+
+For each significance level, in what proportion of the experiments did you 
+
+correctly reject the null hypothesis?
+
+
+Question 3.1
+
+What is the power at alpha=0.1?
+
+R-Code:
+
+N=15
+reject <- function(N,alpha){
+  sample.bwt.nonsmoke <- sample(bwt.nonsmoke,N)
+  sample.bwt.smoke <- sample(bwt.smoke,N)
+  pval <- t.test(sample.bwt.nonsmoke,sample.bwt.smoke)$p.value
+  ifelse(pval < alpha,1,0)
+}
+mean(replicate(1000,reject(N,0.1)))
+
+Question 3.2 
+
+What is the power at alpha=0.05?
+
+R-Code:
+mean(replicate(1000,reject(N,0.05)))
+
+Question 3.3 
+
+What is the power at alpha=0.01?
+
+mean(replicate(1000,reject(N,0.01)))
+
+Question 3.4 
+
+We will deal with the important of multiple hypothesis testing in a later 
+
+course, but for now, consider this question that is very near to your heart. 
+
+Suppose that one of the homework question is graded based on whether the result 
+
+you reported falls within a exact 99% interval around a true value. Now suppose 
+
+that 2,000 students complete the assignment, and assume that all students 
+
+execute the simulation correctly. What is the expected number of student 
+
+responses that would be marked wrong simply by chance?
+
+
+R-Code:
+2000*0.01
